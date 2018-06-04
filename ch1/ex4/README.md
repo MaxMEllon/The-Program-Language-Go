@@ -18,3 +18,24 @@ Emacsは1970年代のMIT人工知能研究所（MIT AI研）で産声をあげ�
         2       file1.md
         19      file2.md
 ```
+
+
+### 検証
+
+```
+    ch1/ex4  master   cat file1.md | grep 'Vimはオランダ人のプログラマーBram MoolenaarによってAmiga向けに開発された。' | wc -l
+       7
+    ch1/ex4  master   cat file2.md | grep 'Vimはオランダ人のプログラマーBram MoolenaarによってAmiga向けに開発された。' | wc -l
+       4
+
+    ch1/ex4  master   cat file1.md | grep 'Emacsは1970年代のMIT人工知能研究所（MIT AI研）で産声をあげた。' | wc -l
+       2
+    ch1/ex4  master   cat file2.md | grep 'Emacsは1970年代のMIT人工知能研究所（MIT AI研）で産声をあげた。' | wc -l
+       6
+
+    ch1/ex4  master   cat file1.md | grep '「EMACSは、共同参加を基として頒布される。つまり改良点は全て、組み入れて頒布するために、私のところへ戻ってこなければならない」' | wc -l
+       2
+    ch1/ex4  master   cat file2.md | grep '「EMACSは、共同参加を基として頒布される。つまり改良点は全て、組み入れて頒布するために、私のところへ戻ってこなければならない」' | wc -l
+      19
+
+```
