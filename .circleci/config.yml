@@ -11,5 +11,17 @@ jobs:
       - run: go get -u github.com/golang/lint/golint
       - run: go get -u github.com/golang/dep/cmd/dep
       - run: golint ./...
-      - run: ch*/ex*/run.sh
-      - run: ch*/ex*/test.sh
+      - run:
+          name: exec
+          command: |
+            for i in ch*/ex*/run.sh
+            do
+              $i
+            done
+      - run:
+          name: test
+          command: |
+            for i in ch*/ex*/test.sh
+            do
+              $i
+            done

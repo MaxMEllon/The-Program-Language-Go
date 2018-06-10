@@ -8,6 +8,12 @@
   version = "v1.1.0"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/maxmellon/The-Program-Language-Go"
+  packages = ["ch02/ex02/src/distconv","ch02/ex02/src/tempconv","ch02/ex02/src/weightconv"]
+  revision = "f1daa1a9abb136615ef236ed5db46971cb0189a4"
+
+[[projects]]
   name = "github.com/pmezard/go-difflib"
   packages = ["difflib"]
   revision = "792786c7400a136282c1664665ae0a8db921c6c2"
@@ -22,6 +28,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c940d1337f45f8152f2f5a9070e0260267261b8089ca6aeab1020e71dfb4253d"
+  inputs-digest = "8f9abea5f2e7463944eac75a17774e28629cdbddf9bb4335ec647d4ac525c15f"
   solver-name = "gps-cdcl"
   solver-version = 1
