@@ -26,7 +26,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		log.Print(err)
 	}
 	lissajous(w, cycles)
-
 }
 
 var palette = []color.Color{
