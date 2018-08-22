@@ -13,10 +13,7 @@ func isScriptOrStyle(n *html.Node) bool {
 }
 
 func getAllPlaneText(planeText []string, n *html.Node) []string {
-	if n == nil {
-		return planeText
-	}
-	if isScriptOrStyle(n) {
+	if n == nil || isScriptOrStyle(n) {
 		return planeText
 	}
 	if n.Type == html.TextNode {
