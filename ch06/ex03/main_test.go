@@ -111,6 +111,90 @@ func Test_IntSet_UnionWith(t *testing.T) {
 	}
 }
 
+func Test_IntSet_IntersectWith(t *testing.T) {
+	suite := map[string][2][]int{
+		"{2}": [2][]int{
+			{1, 2, 3},
+			{4, 2, 6},
+		},
+		"{}": [2][]int{
+			{},
+			{},
+		},
+		"{2 4 5 6}": [2][]int{
+			{1, 1, 4, 7, 4, 4, 4, 2, 5, 6},
+			{2, 2, 3, 5, 6, 4, 4, 4, 6, 6, 6},
+		},
+	}
+
+	for expected, testCase := range suite {
+		s1, s2 := &IntSet{}, &IntSet{}
+		s1.AddAll(testCase[0]...)
+		s2.AddAll(testCase[1]...)
+		s1.IntersectWith(s2)
+		actual := s1.String()
+		if actual != expected {
+			t.Errorf("actual %v want %v", actual, expected)
+		}
+	}
+}
+
+func Test_IntSet_DifferenceWith(t *testing.T) {
+	suite := map[string][2][]int{
+		"{2}": [2][]int{
+			{1, 2, 3},
+			{1, 5, 3},
+		},
+		"{}": [2][]int{
+			{1, 2, 3, 4, 5, 6, 7, 8, 9},
+			{1, 2, 3, 4, 5, 6, 7, 8, 9},
+		},
+		"{1 7}": [2][]int{
+			{1, 1, 4, 7, 4, 4, 4, 2, 5, 6},
+			{2, 2, 3, 5, 6, 4, 4, 4, 6, 6, 6},
+		},
+	}
+
+	for expected, testCase := range suite {
+		s1, s2 := &IntSet{}, &IntSet{}
+		s1.AddAll(testCase[0]...)
+		s2.AddAll(testCase[1]...)
+		s1.DifferenceWith(s2)
+		actual := s1.String()
+		if actual != expected {
+			t.Errorf("actual %v want %v", actual, expected)
+		}
+	}
+}
+
+func Test_IntSet_SymmetricDifference(t *testing.T) {
+	suite := map[string][2][]int{
+		"{2 5}": [2][]int{
+			{1, 2, 3},
+			{1, 5, 3},
+		},
+		"{}": [2][]int{
+			{1, 2, 3, 4, 5, 6, 7, 8, 9},
+			{1, 2, 3, 4, 5, 6, 7, 8, 9},
+		},
+		"{1 3 7}": [2][]int{
+			{1, 1, 4, 7, 4, 4, 4, 2, 5, 6},
+			{2, 2, 3, 5, 6, 4, 4, 4, 6, 6, 6},
+		},
+	}
+
+	for expected, testCase := range suite {
+		s1, s2 := &IntSet{}, &IntSet{}
+		s1.AddAll(testCase[0]...)
+		s2.AddAll(testCase[1]...)
+		s1.SymmetricDifference(s2)
+		actual := s1.String()
+		if actual != expected {
+			t.Errorf("actual %v want %v", actual, expected)
+		}
+	}
+}
+
 func Test_IntSet_Len(t *testing.T) {
 	suite := map[int][]int{
 		0: []int{},
