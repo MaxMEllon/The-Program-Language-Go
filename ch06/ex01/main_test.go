@@ -116,20 +116,18 @@ func Test_IntSet_Len(t *testing.T) {
 	}
 }
 
-// 通るときと通らない時がある... (ガチャテスト)
 func Test_IntSet_Remove(t *testing.T) {
-	suite := map[string]map[string]int{
+	suite := map[string][]map[string]int{
 		"0.1.2.3": {
-			// "{1 2 3}": 0, コケる
-			"{0 2 3}": 1,
-			"{0 3}":   2,
-			"{0}":     3,
+			{"{0 2 3}": 1},
+			{"{0 3}": 2},
+			{"{0}": 3},
 		},
 		"1.8.9.10": {
-			"{1 8 9 10}": 5,
-			"{1 9 10}":   8,
-			"{1 10}":     9,
-			"{1}":        10,
+			{"{1 8 9 10}": 5},
+			{"{1 9 10}": 8},
+			{"{1 10}": 9},
+			{"{1}": 10},
 		},
 	}
 
@@ -139,11 +137,13 @@ func Test_IntSet_Remove(t *testing.T) {
 			i, _ := strconv.Atoi(v)
 			s.Add(i)
 		}
-		for expected, removeKey := range testCase {
-			s.Remove(removeKey)
-			actual := s.String()
-			if actual != expected {
-				t.Errorf("actual %v want %v", actual, expected)
+		for _, step := range testCase {
+			for expected, removeKey := range step {
+				s.Remove(removeKey)
+				actual := s.String()
+				if actual != expected {
+					t.Errorf("actual %v want %v", actual, expected)
+				}
 			}
 		}
 	}
