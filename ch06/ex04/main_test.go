@@ -24,7 +24,7 @@ func Test_IntSet_Elems(t *testing.T) {
 		},
 		{
 			NewIntSet(0xffffffff),
-			[]int{},
+			[]int{4294967295},
 		},
 	}
 
