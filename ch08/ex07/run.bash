@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-rm -rf *github.com*
+rm -rf *golang.org*
 go build -o out
-./out https://github.com
+./out https://golang.org
 rm -rf out
 
-open ./github.com/index.html
+open ./golang.org/index.html

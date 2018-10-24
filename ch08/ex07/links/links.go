@@ -10,10 +10,12 @@ package links
 import (
 	"fmt"
 	"golang.org/x/net/html"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 // Extract makes an HTTP GET request to the specified URL, parses
@@ -56,30 +58,51 @@ func extractAsFile(directory string, resp *http.Response) error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	visitNode := func(n *html.Node) {
+	visitNode := func(n *html.Node, dir string) {
 		if n.Type == html.ElementNode && n.Data == "a" {
 			for i, a := range n.Attr {
 				if a.Key != "href" {
 					continue
 				}
 				_, err := resp.Request.URL.Parse(a.Val)
-				exe, err := os.Executable()
-				dir := filepath.Dir(exe)
-				n.Attr[i].Val = "file:" + dir + "/" + directory + a.Val + ".html"
 				if err != nil {
+					fmt.Print(a.Val)
 					continue // ignore bad URLs
 				}
-				if a.Val != "/" && a.Val != "#" {
-					_, err := http.Get(a.Val)
-					if err != nil {
-
-					}
-					_, err = os.Create( dir + "/" + directory + a.Val + ".html")
-					if err != nil {
-
-					}
+				exe, err := os.Executable()
+				base := filepath.Dir(exe)
+				var fp string
+				val := strings.Replace(a.Val, "http://", "", -1)
+				val = strings.Replace(val, "https://", "", -1)
+				if strings.HasPrefix(val, "/") {
+					fp = base + "/" + dir + val + ".html"
+				} else {
+					fp = base + "/" + dir + "/" + val + ".html"
 				}
-				fmt.Println(n.Attr[i].Val)
+				n.Attr[i].Val = "file:///" + fp
+				d := filepath.Dir(fp)
+
+				os.MkdirAll(d, os.ModePerm)
+				if a.Val != "/" && a.Val != "#" && !strings.Contains(fp, "#") {
+					link, err := resp.Request.URL.Parse(a.Val)
+					if err != nil {
+					}
+					resp, err := http.Get(link.String())
+					if !strings.HasPrefix(resp.Status, "200") {
+						fmt.Printf("%s: %s\n", "SKIP", a.Val)
+						continue
+					} else {
+						fmt.Printf("%s: %s\n", resp.Status, a.Val)
+					}
+					f, err := os.Create(fp)
+					if err != nil {
+						log.Fatal(err)
+					}
+					data, err := ioutil.ReadAll(resp.Body)
+					f.Write(data)
+					f.Close()
+
+				}
 			}
 		}
 	}
@@ -89,22 +112,22 @@ func extractAsFile(directory string, resp *http.Response) error {
 		return err
 	}
 	defer f.Close()
+	forEachNode(doc, visitNode, nil, directory)
 	html.Render(f, doc)
-	forEachNode(doc, visitNode, nil)
 	return nil
 }
 
 //!-Extract
 
 // Copied from gopl.io/ch5/outline2.
-func forEachNode(n *html.Node, pre, post func(n *html.Node)) {
+func forEachNode(n *html.Node, pre, post func(n *html.Node, dir string), dir string) {
 	if pre != nil {
-		pre(n)
+		pre(n, dir)
 	}
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		forEachNode(c, pre, post)
+		forEachNode(c, pre, post, dir)
 	}
 	if post != nil {
-		post(n)
+		post(n, dir)
 	}
 }
