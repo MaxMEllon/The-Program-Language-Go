@@ -1,0 +1,961 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width">
+	<meta name="theme-color" content="#375EAB">
+	<title>The Go Programming Language Blog</title>
+	<link type="text/css" rel="stylesheet" href="/lib/godoc/style.css">
+	<link type="text/css" rel="stylesheet" href="/fonts.css">
+	<link rel="alternate" type="application/atom+xml" title="blog.golang.org - Atom Feed" href="https://blog.golang.org/feed.atom" />
+	<script type="text/javascript">window.initFuncs = [];</script>
+	<style>
+		#sidebar {
+			float: right;
+			padding-left: 20px;
+			width: 40%;
+			max-width: 250px;
+			background: #F3F3F3;
+			margin: 20px 0 20px 20px;
+		}
+		#sidebar ul {
+			padding: 0;
+		}
+		#sidebar li {
+			list-style-type: none;
+		}
+		#content .author {
+			font-style: italic;
+		}
+		#content .article {
+			margin-bottom: 50px;
+		}
+		#content .date {
+			color: #999;
+		}
+		#content .tags {
+			color: #999;
+			font-size: smaller;
+		}
+		#content .iframe, #content .image {
+			margin: 20px;
+		}
+		#content .title {
+			margin: 20px 0;
+		}
+		#content img {
+			max-width: 100%;
+		}
+		.article[data-slug='/go-fonts'] {
+			font-family: Go, sans-serif;
+		}
+		.article[data-slug='/go-fonts'] pre,
+		.article[data-slug='/go-fonts'] code {
+			font-family: Go Mono, monospace;
+		}
+	</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-11222381-3"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("js", new Date());
+gtag("config", "UA-11222381-3");
+gtag("config", "UA-49880327-6");
+</script>
+</head>
+<body>
+
+<div id="topbar"><div class="container">
+
+<div class="top-heading" id="heading-wide"><a href="//golang.org/">The Go Programming Language</a></div>
+<div class="top-heading" id="heading-narrow"><a href="//golang.org/">Go</a></div>
+<a href="#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="//golang.org/search">
+<div id="menu">
+<a href="//golang.org/doc/">Documents</a>
+<a href="//golang.org/pkg/">Packages</a>
+<a href="//golang.org/project/">The Project</a>
+<a href="//golang.org/help/">Help</a>
+<a href="/">Blog</a>
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+<div id="page">
+<div class="container">
+
+<div id="sidebar">
+	
+
+	<h4>Links</h4>
+	<ul>
+	<li><a href='//golang.org/'>golang.org</a></li>
+	<li><a href='//golang.org/doc/install.html'>Install Go</a></li>
+	<li><a href='//tour.golang.org/'>A Tour of Go</a></li>
+	<li><a href='//golang.org/doc/'>Go Documentation</a></li>
+	<li><a href='//groups.google.com/group/golang-nuts'>Go Mailing List</a></li>
+	<li><a href='//plus.google.com/101406623878176903605'>Go on Google+</a></li>
+	<li><a href='//plus.google.com/communities/114112804251407510571'>Go+ Community</a></li>
+	<li><a href='//twitter.com/golang'>Go on Twitter</a></li>
+	</ul>
+
+	<p><a href="/index">Blog index</a></p>
+</div>
+
+<div id="content">
+	<h1><a href="/">The Go Blog</a></h1>
+	
+	
+		
+	<div class="article" data-slug="/appengine-go111">
+		<h3 class="title"><a href="/appengine-go111">Announcing App Engine’s New Go 1.11 Runtime</a></h3>
+		<p class="date">16 October 2018</p>
+		
+
+  
+  
+    
+      
+        
+  
+  <p>
+    <a href="https://cloud.google.com/appengine/" target="_blank">App Engine</a> launched
+
+
+    <a href="https://blog.golang.org/go-and-google-app-engine" target="_blank">experimental support for Go</a>
+
+
+    in 2011. In the subsequent years, the Go community has grown significantly and
+
+
+    has settled on idiomatic
+
+
+    patterns for cloud-based applications. Today, Google Cloud is
+
+
+    <a href="https://cloud.google.com/blog/products/application-development/go-1-11-is-now-available-on-app-engine" target="_blank">announcing a new Go 1.11 runtime</a>
+
+
+    for the App Engine standard environment that provides all the
+
+
+    power of App Engine—things like paying only for what you use, automatic scaling,
+
+
+    and managed infrastructure—while supporting idiomatic Go.
+  </p>
+  
+
+      
+        
+  
+  <p>
+    Starting with Go 1.11, Go on App Engine has no limits on application structure,
+
+
+    supported packages, <code>context.Context</code> values, or HTTP clients. Write your Go
+
+
+    application however you prefer, add an <code>app.yaml</code> file, and your app is ready
+
+
+    to deploy on App Engine.
+
+
+    <a href="https://cloud.google.com/appengine/docs/standard/go111/specifying-dependencies" target="_blank">Specifying Dependencies</a>
+
+
+    describes how the new runtime
+
+
+    supports <a href="https://golang.org/cmd/go/#hdr-Vendor_Directories" target="_blank">vendoring</a> and
+
+
+    <a href="https://golang.org/doc/go1.11#modules" target="_blank">modules</a> (experimental) for dependency
+
+
+    management.
+  </p>
+  
+
+      
+        
+  
+  <p>
+    Along with <a href="https://twitter.com/kelseyhightower/status/1035278586754813952" target="_blank">Cloud Functions support for Go</a>
+
+
+    (more on that in a future post), App Engine provides a compelling way to run Go
+
+
+    code on Google Cloud Platform (GCP) with no concern for the underlying
+
+
+    infrastructure.
+  </p>
+  
+
+      
+        
+  
+  <p>
+    Let’s take a look at creating a small application for App Engine. For the
+
+
+    example here, we assume a <code>GOPATH</code>-based workflow, although Go modules have
+
+
+    <a href="https://cloud.google.com/appengine/docs/standard/go111/specifying-dependencies" target="_blank">experimental support</a>
+
+
+    as well.
+  </p>
+  
+
+      
+        
+  
+  <p>
+    First, you create the application in your <code>GOPATH</code>:
+  </p>
+  
+
+      
+        
+  
+	<div class="code">
+
+
+<pre><span num="1">// This server can run on App Engine.</span>
+<span num="2">package main</span>
+<span num="3"></span>
+<span num="4">import (</span>
+<span num="5">    &#34;fmt&#34;</span>
+<span num="6">    &#34;log&#34;</span>
+<span num="7">    &#34;net/http&#34;</span>
+<span num="8">    &#34;os&#34;</span>
+<span num="9">)</span>
+<span num="10"></span>
+<span num="11">func main() {</span>
+<span num="12">    port := os.Getenv(&#34;PORT&#34;)</span>
+<span num="13">    if port == &#34;&#34; {</span>
+<span num="14">        port = &#34;8080&#34;</span>
+<span num="15">    }</span>
+<span num="16">    http.HandleFunc(&#34;/&#34;, hello)</span>
+<span num="17"></span>
+<span num="18">    log.Fatal(http.ListenAndServe(fmt.Sprintf(&#34;:%s&#34;, port), nil))</span>
+<span num="19">}</span>
+<span num="20"></span>
+<span num="21">func hello(w http.ResponseWriter, r *http.Request) {</span>
+<span num="22">    w.Write([]byte(&#34;Hello, 世界&#34;))</span>
+<span num="23">}</span>
+</pre>
+
+
+</div>
+  
+
+      
+        
+  
+  <p>
+    The code contains an idiomatic setup for a small HTTP server that responds with
+
+
+    “Hello, 世界.” If you have previous App Engine experience, you’ll notice the
+
+
+    absence of any call to <code>appengine.Main()</code>, which is now entirely optional.
+
+
+    Furthermore, the application code is completely portable—there are no ties to
+
+
+    the infrastructure that your application is deployed on.
+  </p>
+  
+
+      
+        
+  
+  <p>
+    If you need to use external dependencies, you can add those dependencies to a
+
+
+    <code>vendor</code> directory or to a <code>go.mod</code> file, both of which the new runtime
+
+
+    supports.
+  </p>
+  
+
+      
+        
+  
+  <p>
+    With the application code complete, create an <code>app.yaml</code> file to specify
+
+
+    the runtime:
+  </p>
+  
+
+      
+        
+  
+  <div class="code"><pre>runtime: go111</pre></div>
+  
+
+      
+        
+  
+  <p>
+    Finally, set your machine up with a Google Cloud Platform account:
+  </p>
+  
+
+      
+        
+  <ul>
+  
+    <li>Create an account with <a href="GCP" target="_self">https://cloud.google.com</a>.</li>
+  
+    <li><a href="https://cloud.google.com/resource-manager/docs/creating-managing-projects" target="_blank">Create a project</a>.</li>
+  
+    <li>Install the <a href="https://cloud.google.com/sdk/" target="_blank">Cloud SDK</a> on your system.</li>
+  
+  </ul>
+
+      
+        
+  
+  <p>
+    With all the setup complete, you can deploy using one command:
+  </p>
+  
+
+      
+        
+  
+  <div class="code"><pre>gcloud app deploy</pre></div>
+  
+
+      
+        
+  
+  <p>
+    We think Go developers will find the new Go 1.11 runtime for App Engine an
+
+
+    exciting addition to the available options to run Go applications. There is a
+
+
+    <a href="https://cloud.google.com/free/" target="_blank">free tier</a>. Check out the
+
+
+    <a href="https://cloud.google.com/appengine/docs/standard/go111/building-app/" target="_blank">getting started guide</a>
+
+
+    or the
+
+
+    <a href="https://cloud.google.com/appengine/docs/standard/go111/go-differences" target="_blank">migration guide</a>
+
+
+    and deploy an app to the new runtime today!
+  </p>
+  
+
+      
+    
+  
+
+
+		
+			<p class="author">By Eno Compton and Tyler Bui-Palsulich</p>
+		
+	</div>
+
+	
+		
+	<div class="article" data-slug="/wire">
+		<h3 class="title"><a href="/wire">Compile-time Dependency Injection With Go Cloud&#39;s Wire</a></h3>
+		<p class="date">9 October 2018</p>
+		
+
+  
+  
+    
+      
+  <h4 id="TOC_1.">Overview</h4>
+  
+  
+  <p>
+    The Go team recently <a href="https://blog.golang.org/go-cloud" target="_blank">announced</a> the open source project <a href="https://github.com/google/go-cloud" target="_blank">Go Cloud</a>, with portable Cloud APIs and tools for <a href="https://cloud.google.com/open-cloud/" target="_blank">open cloud</a> development. This post goes into more detail about Wire, a dependency injection tool provided with Go Cloud.
+  </p>
+  
+
+
+    
+      
+  <h4 id="TOC_2.">What problem does Wire solve?</h4>
+  
+  
+  <p>
+    <a href="https://en.wikipedia.org/wiki/Dependency_injection" target="_blank">Dependency injection</a> is a standard technique for producing flexible and loosely coupled code, by explicitly providing components with all of the dependencies they need to work. In Go, this often takes the form of passing dependencies to constructors:
+  </p>
+  
+
+  
+  <div class="code"><pre>// NewUserStore returns a UserStore that uses cfg and db as dependencies.
+func NewUserStore(cfg *Config, db *mysql.DB) (*UserStore, error) {...}</pre></div>
+  
+
+  
+  <p>
+    This technique works great at small scale, but larger applications can have a complex graph of dependencies, resulting in a big block of initialization code that&#39;s order-dependent but otherwise not very interesting. It&#39;s often hard to break up this code cleanly, especially because some dependencies are used multiple times. Replacing one implementation of a service with another can be painful because it involves modifying the dependency graph by adding a whole new set of dependencies (and their dependencies...), and removing unused old ones. In practice, making changes to initialization code in applications with large dependency graphs is tedious and slow.
+  </p>
+  
+
+  
+  <p>
+    Dependency injection tools like Wire aim to simplify the management of initialization code. You describe your services and their dependencies, either as code or as configuration, then Wire processes the resulting graph to figure out ordering and how to pass each service what it needs. Make changes to an application&#39;s dependencies by changing a function signature or adding or removing an initializer, and then let Wire do the tedious work of generating initialization code for the entire dependency graph.
+  </p>
+  
+
+
+    
+      
+  <h4 id="TOC_3.">Why is this part of Go Cloud?</h4>
+  
+  
+  <p>
+    Go Cloud&#39;s goal is to make it easier to write portable Cloud applications by providing idiomatic Go APIs for useful Cloud services. For example, <a href="https://godoc.org/github.com/google/go-cloud/blob" target="_blank">blob.Bucket</a> provides a storage API with implementations for Amazon&#39;s S3 and Google Cloud Storage (GCS); applications written using <code>blob.Bucket</code> can swap implementations without changing their application logic. However, the initialization code is inherently provider-specific, and each provider has a different set of dependencies.
+  </p>
+  
+
+  
+  <p>
+    For example, <a href="https://godoc.org/github.com/google/go-cloud/blob/gcsblob#OpenBucket" target="_blank">constructing a GCS <code>blob.Bucket</code></a> requires a <code>gcp.HTTPClient</code>, which eventually requires <code>google.Credentials</code>, while <a href="https://godoc.org/github.com/google/go-cloud/blob/s3blob" target="_blank">constructing one for S3</a> requires an <code>aws.Config</code>, which eventually requires AWS credentials. Thus, updating an application to use a different <code>blob.Bucket</code> implementation involves exactly the kind of tedious update to the dependency graph that we described above. The driving use case for Wire is to make it easy to swap implementations of Go Cloud portable APIs, but it&#39;s also a general-purpose tool for dependency injection.
+  </p>
+  
+
+
+    
+      
+  <h4 id="TOC_4.">Hasn&#39;t this been done already?</h4>
+  
+  
+  <p>
+    There are a number of dependency injection frameworks out there. For Go, <a href="https://github.com/uber-go/dig" target="_blank">Uber&#39;s dig</a> and <a href="https://github.com/facebookgo/inject" target="_blank">Facebook&#39;s inject</a> both use reflection to do runtime dependency injection. Wire was primarily inspired by Java&#39;s <a href="https://google.github.io/dagger/" target="_blank">Dagger 2</a>, and uses code generation rather than reflection or <a href="https://en.wikipedia.org/wiki/Service_locator_pattern" target="_blank">service locators</a>.
+  </p>
+  
+
+  
+  <p>
+    We think this approach has several advantages:
+  </p>
+  
+
+  <ul>
+  
+    <li>Runtime dependency injection can be hard to follow and debug when the dependency graph gets complex. Using code generation means that the initialization code that&#39;s executed at runtime is regular, idiomatic Go code that&#39;s easy to understand and debug. Nothing is obfuscated by an intervening framework doing &#34;magic&#34;. In particular, problems like forgetting a dependency become compile-time errors, not run-time errors.</li>
+  
+    <li>Unlike <a href="https://en.wikipedia.org/wiki/Service_locator_pattern" target="_blank">service locators</a>, there&#39;s no need to make up arbitrary names or keys to register services. Wire uses Go types to connect components with their dependencies.</li>
+  
+    <li>It&#39;s easier to avoid dependency bloat. Wire&#39;s generated code will only import the dependencies you need, so your binary won&#39;t have unused imports. Runtime dependency injectors can&#39;t identify unused dependencies until runtime.</li>
+  
+    <li>Wire&#39;s dependency graph is knowable statically, which provides opportunities for tooling and visualization.</li>
+  
+  </ul>
+
+
+    
+      
+  <h4 id="TOC_5.">How does it work?</h4>
+  
+  
+  <p>
+    Wire has two basic concepts: providers and injectors.
+  </p>
+  
+
+  
+  <p>
+    <i>Providers</i> are ordinary Go functions that &#34;provide&#34; values given their dependencies, which are described simply as parameters to the function. Here&#39;s some sample code that defines three providers:
+  </p>
+  
+
+  
+  <div class="code"><pre>// NewUserStore is the same function we saw above; it is a provider for UserStore,
+// with dependencies on *Config and *mysql.DB.
+func NewUserStore(cfg *Config, db *mysql.DB) (*UserStore, error) {...}
+
+// NewDefaultConfig is a provider for *Config, with no dependencies.
+func NewDefaultConfig() *Config {...}
+
+// NewDB is a provider for *mysql.DB based on some connection info.
+func NewDB(info *ConnectionInfo) (*mysql.DB, error) {...}</pre></div>
+  
+
+  
+  <p>
+    Providers that are commonly used together can be grouped into <code>ProviderSets</code>. For example, it&#39;s common to use a default <code>*Config</code> when creating a <code>*UserStore</code>, so we can group <code>NewUserStore</code> and <code>NewDefaultConfig</code> in a <code>ProviderSet</code>:
+  </p>
+  
+
+  
+  <div class="code"><pre>var UserStoreSet = wire.ProviderSet(NewUserStore, NewDefaultConfig)</pre></div>
+  
+
+  
+  <p>
+    <i>Injectors</i> are generated functions that call providers in dependency order. You write the injector&#39;s signature, including any needed inputs as arguments, and insert a call to <code>wire.Build</code> with the list of providers or provider sets that are needed to construct the end result:
+  </p>
+  
+
+  
+  <div class="code"><pre>func initUserStore() (*UserStore, error) {
+    // We&#39;re going to get an error, because NewDB requires a *ConnectionInfo
+    // and we didn&#39;t provide one.
+    wire.Build(UserStoreSet, NewDB)
+    return nil, nil  // These return values are ignored.
+}</pre></div>
+  
+
+  
+  <p>
+    Now we run go generate to execute wire:
+  </p>
+  
+
+  
+  <div class="code"><pre>$ go generate
+wire.go:2:10: inject initUserStore: no provider found for ConnectionInfo (required by provider of *mysql.DB)
+wire: generate failed</pre></div>
+  
+
+  
+  <p>
+    Oops! We didn&#39;t include a <code>ConnectionInfo</code> or tell Wire how to build one. Wire helpfully tells us the line number and types involved. We can either add a provider for it to <code>wire.Build</code>, or add it as an argument:
+  </p>
+  
+
+  
+  <div class="code"><pre>func initUserStore(info ConnectionInfo) (*UserStore, error) {
+    wire.Build(UserStoreSet, NewDB)
+    return nil, nil  // These return values are ignored.
+}</pre></div>
+  
+
+  
+  <p>
+    Now `go generate` will create a new file with the generated code:
+  </p>
+  
+
+  
+  <div class="code"><pre>// File: wire_gen.go
+// Code generated by Wire. DO NOT EDIT.
+//go:generate wire
+//&#43;build !wireinject
+
+func initUserStore(info ConnectionInfo) (*UserStore, error) {
+    defaultConfig := NewDefaultConfig()
+    db, err := NewDB(info)
+    if err != nil {
+        return nil, err
+    }
+    userStore, err := NewUserStore(defaultConfig, db)
+    if err != nil {
+        return nil, err
+    }
+    return userStore, nil
+}</pre></div>
+  
+
+  
+  <p>
+    Any non-injector declarations are copied into the generated file. There is no dependency on Wire at runtime: all of the written code is just normal Go code.
+  </p>
+  
+
+  
+  <p>
+    As you can see, the output is very close to what a developer would write themselves. This was a trivial example with just three components, so writing the initializer by hand wouldn&#39;t be too painful, but Wire saves a lot of manual toil for components and applications with more complex dependency graphs.
+  </p>
+  
+
+
+    
+      
+  <h4 id="TOC_6.">How can I get involved and learn more?</h4>
+  
+  
+  <p>
+    The <a href="https://github.com/google/go-cloud/blob/master/wire/README.md" target="_blank">Wire README</a> goes into more detail about how to use Wire and its more advanced features. There&#39;s also a <a href="https://github.com/google/go-cloud/tree/master/samples/wire" target="_blank">tutorial</a> that walks through using Wire in a simple application.
+  </p>
+  
+
+  
+  <p>
+    We appreciate any input you have about your experience with Wire! <a href="https://github.com/google/go-cloud" target="_blank">Go Cloud&#39;s</a> development is conducted on GitHub, so you can <a href="https://github.com/google/go-cloud/issues/new" target="_blank">file an issue</a> to tell us what could be better. For updates and discussion about the project, join <a href="https://groups.google.com/forum/#!forum/go-cloud" target="_blank">the project’s mailing list</a>.
+  </p>
+  
+
+  
+  <p>
+    Thank you for taking the time to learn about Go Cloud&#39;s Wire. We’re excited to work with you to make Go the language of choice for developers building portable cloud applications.
+  </p>
+  
+
+
+    
+  
+
+
+		
+			<p class="author">By Robert van Gent</p>
+		
+	</div>
+
+	
+		
+	<div class="article" data-slug="/company-questionnaire2018">
+		<h3 class="title"><a href="/company-questionnaire2018">﻿Participate in the 2018 Go Company Questionnaire</a></h3>
+		<p class="date">4 October 2018</p>
+		
+
+  
+  
+    
+      
+  <h4 id="TOC_1.">The Go project wants to hear from you!</h4>
+  
+  
+  <p>
+    We need your help to create the best programming language for developing
+
+
+    simple, reliable, and scalable software. To do this, we need to better
+
+
+    understand how companies are using Go. Please help by participating in a
+
+
+    7-minute company questionnaire.
+  </p>
+  
+
+  
+  <p>
+    <b>Who:</b> If you are in a position to share details like “company name,” “if your
+
+
+    company is hiring Go developers,” and “reasons your team or company adopted Go”
+
+
+    then please help us by taking this company questionnaire. We only need one
+
+
+    response per company (or per department for larger companies). If you aren’t the
+
+
+    right person, please forward this onto the right person at your company.
+  </p>
+  
+
+  
+  <p>
+    <i>Please note: this is different from our annual anonymous Go user survey, which</i>
+
+
+    <i>will be announced in November.</i>
+  </p>
+  
+
+  
+  <p>
+    <b>Where:</b> Please take this 7-minute questionnaire by October 30th:
+
+
+    <a href="http://goo.gl/nnPfct" target="_blank">Go Company Questionnaire 2018</a>.
+  </p>
+  
+
+  
+  <p>
+    The questionnaire is confidential, but not anonymous. For more information,
+
+
+    please refer to Google’s privacy policy
+
+
+    <a href="https://policies.google.com/privacy" target="_blank">here</a>.
+  </p>
+  
+
+  
+  <p>
+    The Go project leadership will use your responses to better understand how
+
+
+    companies use Go and in what ways we can improve their experience.
+  </p>
+  
+
+
+    
+      
+  <h4 id="TOC_2.">Spread the word!</h4>
+  
+  
+  <p>
+    We would like as many companies as possible to participate to help us better
+
+
+    understand our global user base. Please help us spread the word by sharing this
+
+
+    post on your social network feeds, at meetups, and in other communities.
+  </p>
+  
+
+
+    
+  
+
+
+		
+			<p class="author">By Ran Tao, Steve Francia</p>
+		
+	</div>
+
+	
+		
+	<div class="article" data-slug="/go2draft">
+		<h3 class="title"><a href="/go2draft">Go 2 Draft Designs</a></h3>
+		<p class="date">28 August 2018</p>
+		
+
+  
+  
+    
+      
+        
+  
+  <p>
+    Yesterday, at our annual Go contributor summit,
+
+
+    attendees got a sneak peek at preliminary <i>drafts</i> of
+
+
+    possible designs for changes to error handling and generics.
+
+
+    <a href="https://blog.golang.org/toward-go2" target="_blank">The development of Go 2</a> was announced last year and we are excited to share updates with you today.
+  </p>
+  
+
+      
+        
+  
+  <p>
+    For a quick overview, watch this short message we just played at Gophercon 2018:
+  </p>
+  
+
+      
+        
+<div class="iframe">
+  <iframe src="//www.youtube.com/embed/6wIP3rO6On8" height="315" width="560" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>
+</div>
+
+      
+        
+  
+  <p>
+    We invite everyone in the Go community to
+
+
+    <a href="https://go.googlesource.com/proposal/+/master/design/go2draft.md" target="_blank">learn more about the designs</a>
+
+
+    and help us improve them. 
+  </p>
+  
+
+      
+    
+  
+
+
+		
+	</div>
+
+	
+		
+	<div class="article" data-slug="/go1.11">
+		<h3 class="title"><a href="/go1.11">Go 1.11 is released</a></h3>
+		<p class="date">24 August 2018</p>
+		
+
+  
+  
+    
+      
+        
+  
+  <p>
+    Who says releasing on Friday is a bad idea?
+  </p>
+  
+
+      
+        
+  
+  <p>
+    Today the Go team is happy to announce the release of Go 1.11.
+
+
+    You can get it from the <a href="https://golang.org/dl/" target="_blank">download page</a>.
+  </p>
+  
+
+      
+        
+  
+  <p>
+    There are many changes and improvements to the toolchain, runtime, and libraries, but two features stand out as being especially exciting: modules and WebAssembly support.
+  </p>
+  
+
+      
+        
+  
+  <p>
+    This release adds preliminary support for a <a href="https://golang.org/doc/go1.11#modules" target="_blank">new concept called “modules,”</a> an alternative to GOPATH with integrated support for versioning and package distribution.
+
+
+    Module support is considered experimental, and there are still a few rough edges to smooth out, so please make liberal use of the <a href="https://golang.org/issue/new" target="_blank">issue tracker</a>.
+  </p>
+  
+
+      
+        
+  
+  <p>
+    Go 1.11 also adds an experimental port to <a href="https://golang.org/doc/go1.11#wasm" target="_blank">WebAssembly</a> (<code>js/wasm</code>).
+
+
+    This allows programmers to compile Go programs to a binary format compatible with four major web browsers.
+
+
+    You can read more about WebAssembly (abbreviated “Wasm”) at <a href="https://webassembly.org/" target="_blank">webassembly.org</a> and see <a href="https://golang.org/wiki/WebAssembly" target="_blank">this wiki page</a> on how to get started with using Wasm with Go.
+
+
+    Special thanks to <a href="https://github.com/neelance" target="_blank">Richard Musiol</a> for contributing the WebAssembly port!
+  </p>
+  
+
+      
+        
+  
+  <p>
+    We also want to thank everyone who contributed to this release by writing code, filing bugs, providing feedback, and/or testing the betas and release candidates.
+
+
+    Your contributions and diligence helped to ensure that Go 1.11 is as bug-free as possible.
+
+
+    That said, if you do notice any problems, please <a href="https://golang.org/issues/new" target="_blank">file an issue</a>.
+  </p>
+  
+
+      
+        
+  
+  <p>
+    For more detail about the changes in Go 1.11, see the <a href="https://golang.org/doc/go1.11" target="_blank">release notes</a>.
+  </p>
+  
+
+      
+        
+  
+  <p>
+    Have a wonderful weekend and enjoy the release!
+  </p>
+  
+
+      
+    
+  
+
+
+		
+			<p class="author">By Andrew Bonventre</p>
+		
+	</div>
+
+	
+	<p>See the <a href="/index">index</a> for more articles.
+
+</div>
+
+<div id="footer">
+	<p>
+	Except as
+	<a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+	the content of this page is licensed under the Creative Commons
+	Attribution 3.0 License,<br>
+	and code is licensed under a <a href="//golang.org/LICENSE">BSD license</a>.<br>
+	<a href="//golang.org/doc/tos.html">Terms of Service</a> |
+	<a href="//www.google.com/intl/en/policies/privacy/">Privacy Policy</a> |
+	<a href="https://go.googlesource.com/blog/">View the source code</a>
+	</p>
+</div>
+
+</div>
+</div>
+
+</body>
+<script src="/lib/godoc/jquery.js"></script>
+<script src="/lib/godoc/playground.js"></script>
+<script src="/lib/godoc/play.js"></script>
+<script src="/lib/godoc/godocs.js"></script>
+<script>
+$(function() {
+	
+	$('.playground > pre.numbers, .code > pre.numbers').each(function() {
+		var $spans = $(this).find('> span');
+
+		
+		var max = 0;
+		$spans.each(function() {
+			var n = $(this).attr('num')*1;
+			if (n > max) max = n;
+		});
+		var width = 2;
+		while (max > 10) {
+			max = max / 10;
+			width++;
+		}
+
+		
+		$spans.each(function() {
+			var n = $(this).attr('num')+' ';
+			while (n.length < width) n = ' '+n;
+			$('<span class="number">').text(n).insertBefore(this);
+		});
+	});
+
+	initPlayground(new HTTPTransport());
+});
+</script>
+</html>
