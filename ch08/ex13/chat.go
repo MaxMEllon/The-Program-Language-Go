@@ -62,7 +62,7 @@ func handleConn(conn net.Conn) {
 	input := bufio.NewScanner(conn)
 
 	// 入室後放置も切断するように
-	timer := time.AfterFunc(duration, func () {
+	timer := time.AfterFunc(duration, func() {
 		conn.Close()
 	})
 	for input.Scan() {

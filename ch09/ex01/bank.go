@@ -14,7 +14,7 @@ func Balance() int       { return <-balances }
 
 func Withdraw(amount int) bool {
 	ch := make(chan bool)
-	withdraws <- &RequestBank{amount,ch}
+	withdraws <- &RequestBank{amount, ch}
 	return <-ch
 }
 

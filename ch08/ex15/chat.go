@@ -78,9 +78,8 @@ func handleConn(conn net.Conn) {
 	messages <- who + " has arrived"
 	entering <- ch
 
-
 	// 入室後放置も切断するように
-	timer := time.AfterFunc(duration, func () {
+	timer := time.AfterFunc(duration, func() {
 		conn.Close()
 	})
 	for input.Scan() {

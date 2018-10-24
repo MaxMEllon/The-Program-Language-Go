@@ -27,7 +27,7 @@ func handleConn(c *net.TCPConn, waitGroup sync.WaitGroup) {
 		go echo(c, input.Text(), 1*time.Second, waitGroup)
 	}
 	waitGroup.Wait() // サブルーチン delta 個の処理を待つ
-	c.CloseWrite() // 待ってからtcpの書き込み側をclose
+	c.CloseWrite()   // 待ってからtcpの書き込み側をclose
 }
 
 //!-

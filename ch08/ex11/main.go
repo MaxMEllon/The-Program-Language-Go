@@ -26,7 +26,7 @@ func mirrorQuery(urls []string) ([]byte, error) {
 			responses <- resp
 		}()
 	}
-	res := <- responses
+	res := <-responses
 	cancel <- struct{}{} // どれか一つでもレスポンス入れば他全部キャンセル
 	return ioutil.ReadAll(res.Body)
 }

@@ -12,6 +12,7 @@ var n int
 func init() {
 	n = 0
 }
+
 var ch = make(chan struct{}, 20)
 
 func crawl(url string) []string {

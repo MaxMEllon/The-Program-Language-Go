@@ -35,4 +35,3 @@ func TestWithdraw(t *testing.T) {
 		t.Errorf("Result is %d, but %d", bank.Balance(), 0)
 	}
 }
-
