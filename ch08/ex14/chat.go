@@ -83,6 +83,7 @@ func handleConn(conn net.Conn) {
 		conn.Close()
 	})
 	for input.Scan() {
+		timer.Stop()
 		messages <- who + ": " + input.Text()
 		timer = time.AfterFunc(duration, func() {
 			conn.Close()
