@@ -4,9 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"github.com/maxmellon/The-Program-Language-Go/ch05/ex13/links"
-	"sync"
 	"log"
 	"math"
+	"sync"
 )
 
 type leveledList struct {
@@ -22,13 +22,13 @@ func init() {
 	flag.Parse()
 	n = 0
 }
+
 var wg sync.WaitGroup
 
 func crawl(depth int, url string) *leveledList {
 	if depth > *depthOption {
-		return &leveledList{depth + 1, make([]string, 0)}
 		wg.Done()
-		n--
+		return &leveledList{depth + 1, make([]string, 0)}
 	}
 
 	fmt.Printf("depth %5d: url: %s\n", depth, url)
@@ -49,7 +49,6 @@ func main() {
 	go func() {
 		workList <- &leveledList{1, flag.Args()}
 	}()
-
 
 	seen := make(map[string]bool)
 
