@@ -4,7 +4,7 @@
 package sexpr
 
 import (
-	"encoding/json"
+	"bytes"
 	"fmt"
 	"testing"
 )
@@ -21,7 +21,7 @@ import (
 //
 func Test(t *testing.T) {
 	type Movie struct {
-		Title, Subtitle string            `json:"Title,Subtitle"`
+		Title, Subtitle string            `json:"Title"`
 		Year            int               `json:"Year"`
 		Actor           map[string]string `json:"Actor"`
 		Oscars          []string          `json:"Oscars"`
@@ -48,15 +48,11 @@ func Test(t *testing.T) {
 	}
 
 	// Encode it
-	data, err := Marshal(strangelove)
-	fmt.Printf("%s\n", data)
-	if err != nil {
-		t.Fatalf("Marshal failed: %v", err)
-	}
-	res := new(Movie)
-	err = json.Unmarshal(data, res)
+	wbuf := bytes.NewBuffer(make([]byte, 0, 30000))
+	encoder := NewEncoder(wbuf)
+	err := encoder.Encode(&strangelove)
 	if err != nil {
 		t.Error(err)
 	}
-	fmt.Printf("%v\n", res)
+	fmt.Printf("%s\n", wbuf.String())
 }
