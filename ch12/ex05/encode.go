@@ -40,8 +40,11 @@ func encode(buf *bytes.Buffer, v reflect.Value) error {
 		reflect.Uint32, reflect.Uint64, reflect.Uintptr:
 		fmt.Fprintf(buf, "%d", v.Uint())
 
-	case reflect.Complex64, reflect.Complex128:
-		fmt.Fprintf(buf, "%%C (%1.1f %1.1f)", real(v.Complex()), imag(v.Complex()))
+	/*
+		json では 複素数をサポートしない
+		case reflect.Complex64, reflect.Complex128:
+			fmt.Fprintf(buf, "%%C (%1.1f %1.1f)", real(v.Complex()), imag(v.Complex()))
+	*/
 
 	case reflect.String:
 		fmt.Fprintf(buf, "%q", v.String())

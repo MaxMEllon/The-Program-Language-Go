@@ -10,6 +10,7 @@ package sexpr
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"reflect"
 	"strconv"
 	"text/scanner"
@@ -157,6 +158,34 @@ func endList(lex *lexer) bool {
 		return true
 	}
 	return false
+}
+
+type Decoder struct {
+	reader io.Reader
+}
+
+func NewDecoder(r io.Reader) *Decoder {
+	dec := new(Decoder)
+	dec.reader = r
+	return dec
+}
+
+func (dec *Decoder) Buffered() io.Reader {
+	return dec.reader
+}
+
+func (dec *Decoder) Decode(v interface{}) (err error) {
+	lex := &lexer{scan: scanner.Scanner{Mode: scanner.GoTokens}}
+	lex.scan.Init(dec.reader)
+	lex.next() // get the first token
+	defer func() {
+		// NOTE: this is not an example of ideal error handling.
+		if x := recover(); x != nil {
+			err = fmt.Errorf("error at %s: %v", lex.scan.Position, x)
+		}
+	}()
+	read(lex, reflect.ValueOf(v).Elem())
+	return nil
 }
 
 //!-readlist

@@ -4,8 +4,8 @@
 package sexpr
 
 import (
+	"bytes"
 	"fmt"
-	"reflect"
 	"testing"
 )
 
@@ -19,7 +19,7 @@ import (
 //
 // 	$ go test -v gopl.io/ch12/sexpr
 //
-func skipTest(t *testing.T) {
+func Test(t *testing.T) {
 	type Movie struct {
 		Title, Subtitle string
 		Year            int
@@ -49,54 +49,13 @@ func skipTest(t *testing.T) {
 
 	// Encode it
 	data, err := Marshal(strangelove)
+	fmt.Printf("%s\n", data)
 	if err != nil {
 		t.Fatalf("Marshal failed: %v", err)
 	}
-	t.Logf("Marshal() = %s\n", data)
-
-	// Decode it
-	var movie Movie
-	if err := Unmarshal(data, &movie); err != nil {
-		t.Fatalf("Unmarshal failed: %v", err)
-	}
-	t.Logf("Unmarshal() = %+v\n", movie)
-
-	// Check equality.
-	if !reflect.DeepEqual(movie, strangelove) {
-		t.Fatal("not equal")
-	}
-
-	// Pretty-print it:
-	data, err = MarshalIndent(strangelove)
+	decoder := NewDecoder(bytes.NewBuffer(data))
+	err = decoder.Decode(new(Movie))
 	if err != nil {
-		t.Fatal(err)
+		t.Error(err)
 	}
-	t.Logf("MarshalIdent() = %s\n", data)
-}
-
-func TestComplex(t *testing.T) {
-	data, err := Marshal(1 + 5i)
-	if err != nil {
-		t.Fatal(err)
-	}
-	fmt.Printf("%s", data)
-}
-
-func TestFloat(t *testing.T) {
-	data, err := Marshal(54.372189461)
-	if err != nil {
-		t.Fatal(err)
-	}
-	fmt.Printf("%s", data)
-}
-
-func TestBool(t *testing.T) {
-	data, err := Marshal(struct {
-		a bool
-		b bool
-	}{a: true, b: false})
-	if err != nil {
-		t.Fatal(err)
-	}
-	fmt.Printf("%s", data)
 }
