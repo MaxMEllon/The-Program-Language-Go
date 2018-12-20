@@ -21,11 +21,11 @@ import (
 //
 func Test(t *testing.T) {
 	type Movie struct {
-		Title, Subtitle string
-		Year            int
-		Actor           map[string]string
-		Oscars          []string
-		Sequel          *string
+		Title, Subtitle string            `json:"Title"`
+		Year            int               `json:"Year"`
+		Actor           map[string]string `json:"Actor"`
+		Oscars          []string          `json:"Oscars"`
+		Sequel          *string           `json:"Sequel"`
 	}
 	strangelove := Movie{
 		Title:    "Dr. Strangelove",
@@ -58,4 +58,5 @@ func Test(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	fmt.Printf("%v\n", res)
 }

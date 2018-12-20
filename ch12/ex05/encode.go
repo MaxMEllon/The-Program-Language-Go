@@ -15,11 +15,9 @@ import (
 // Marshal encodes a Go value in S-expression form.
 func Marshal(v interface{}) ([]byte, error) {
 	var buf bytes.Buffer
-	buf.WriteByte('{')
 	if err := encode(&buf, reflect.ValueOf(v)); err != nil {
 		return nil, err
 	}
-	buf.WriteByte('}')
 	return buf.Bytes(), nil
 }
 
@@ -71,7 +69,6 @@ func encode(buf *bytes.Buffer, v reflect.Value) error {
 		buf.WriteByte(']')
 
 	case reflect.Struct: // { name: { key: value } ...}
-		fmt.Fprintf(buf, "\"%s\":", v.Type().Name())
 		buf.WriteByte('{')
 		for i := 0; i < v.NumField(); i++ {
 			if i > 0 {
