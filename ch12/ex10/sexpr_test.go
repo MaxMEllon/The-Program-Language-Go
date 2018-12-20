@@ -4,8 +4,8 @@
 package sexpr
 
 import (
+	"bytes"
 	"fmt"
-	"reflect"
 	"testing"
 )
 
@@ -21,11 +21,11 @@ import (
 //
 func Test(t *testing.T) {
 	type Movie struct {
-		Title, Subtitle string
-		Year            int
-		Actor           map[string]string
-		Oscars          []string
-		Sequel          *string
+		Title, Subtitle string            `json:"Title"`
+		Year            int               `json:"Year"`
+		Actor           map[string]string `json:"Actor"`
+		Oscars          []string          `json:"Oscars"`
+		Sequel          *string           `json:"Sequel"`
 	}
 	strangelove := Movie{
 		Title:    "Dr. Strangelove",
@@ -48,28 +48,11 @@ func Test(t *testing.T) {
 	}
 
 	// Encode it
-	data, err := Marshal(strangelove)
+	wbuf := bytes.NewBuffer(make([]byte, 0, 30000))
+	encoder := NewEncoder(wbuf)
+	err := encoder.Encode(&strangelove)
 	if err != nil {
-		t.Fatalf("Marshal failed: %v", err)
+		t.Error(err)
 	}
-	//t.Logf("Marshal() = %s\n", data)
-
-	// Decode it
-	var movie Movie
-	if err := Unmarshal(data, &movie); err != nil {
-		t.Fatalf("Unmarshal failed: %v", err)
-	}
-	// t.Logf("Unmarshal() = %+v\n", movie)
-
-	// Check equality.
-	if !reflect.DeepEqual(movie, strangelove) {
-		t.Fatal("not equal")
-	}
-
-	// Pretty-print it:
-	data, err = MarshalIndent(strangelove)
-	if err != nil {
-		t.Fatal(err)
-	}
-	fmt.Printf("%s\n", data)
+	fmt.Printf("%s\n", wbuf.String())
 }
